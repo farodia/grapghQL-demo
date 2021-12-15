@@ -1,14 +1,11 @@
-package com.graphql.graphqldemo.dgsgraphqltest;
+package com.graphql.graphqldemo.dgsgraphql;
 
 import com.graphql.graphqldemo.datafetcher.FindsDataFetcher;
 import com.graphql.graphqldemo.entity.Book;
 import com.graphql.graphqldemo.service.BookService;
-import com.netflix.graphql.dgs.DgsQuery;
 import com.netflix.graphql.dgs.DgsQueryExecutor;
 import com.netflix.graphql.dgs.autoconfig.DgsAutoConfiguration;
-import com.netflix.graphql.dgs.client.codegen.GraphQLQueryRequest;
 import graphql.ExecutionResult;
-import org.assertj.core.util.Maps;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
