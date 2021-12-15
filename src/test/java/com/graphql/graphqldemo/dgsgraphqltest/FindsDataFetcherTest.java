@@ -8,6 +8,7 @@ import com.netflix.graphql.dgs.DgsQueryExecutor;
 import com.netflix.graphql.dgs.autoconfig.DgsAutoConfiguration;
 import com.netflix.graphql.dgs.client.codegen.GraphQLQueryRequest;
 import graphql.ExecutionResult;
+import org.assertj.core.util.Maps;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -18,6 +19,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,10 +35,14 @@ public class FindsDataFetcherTest {
 
     @BeforeEach
     public void before() {
-        Mockito.when(bookService.findAllBooks())
-                .thenAnswer(invocation -> Collections.singletonList(Book.builder().isn("1").title(title).summary("mock summary").build()));
         Mockito.when(bookService.findBookByTitle(title))
                 .thenAnswer(invocation -> Collections.singletonList(Book.builder().isn("1").title(title).summary("mock summary").build()));
+        Mockito.when(bookService.findAllBooks())
+                .thenAnswer(invocation ->
+                        Arrays.asList(
+                        Collections.singletonList(Book.builder().isn("1").title(title).summary("mock summary").build()),
+                        Collections.singletonList(Book.builder().isn("2").title("Another book").summary("mock summary").build())
+                        ));
 
     }
 
@@ -47,8 +53,9 @@ public class FindsDataFetcherTest {
                 "data.finds[*]"
         );
         System.out.println(books.get(0));
-        assertThat(books.size()).isEqualTo(1);
-//        assertThat(books.get(0).getTitle()).contains(title);
+        assertThat(books.size()).isEqualTo(2);
+
+//        assertThat(books.get(0).getSummary()).isEqualTo("mock summary");
     }
 
     @Test
@@ -57,8 +64,8 @@ public class FindsDataFetcherTest {
                 "{ finds(titleFilter: \"on Java\") { isn title summary }}",
                 "data.finds[*]"
         );
-        System.out.println(books.get(0));
         assertThat(books.size()).isEqualTo(1);
+//        System.out.println(books.get(0).getTitle());
 //        assertThat(books.get(0).getTitle()).contains(title);
     }
 
@@ -79,14 +86,7 @@ public class FindsDataFetcherTest {
         Mockito.when(bookService.findBookByTitle(title)).thenThrow(new RuntimeException("nothing to see here"));
 
         ExecutionResult result = dgsQueryExecutor.execute(
-                " {\n" +
-                        "  finds(titleFilter: \"on Java\") {\n" +
-                        "    isn\n" +
-                        "    title\n" +
-                        "    summary\n" +
-                        "  } \n" +
-                        "  \n" +
-                        "}");
+                " { finds(titleFilter: \"on Java\") { isn title summary }}");
 
         assertThat(result.getErrors()).isNotEmpty();
         assertThat(result.getErrors().get(0).getMessage()).isEqualTo("java.lang.RuntimeException: nothing to see here");
