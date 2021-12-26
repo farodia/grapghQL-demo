@@ -26,10 +26,11 @@ GET:    `http://localhost:8091` to show all books
 
 ### Have a try in QraphQL page
 in `http://localhost:8091/graphiql`
-    {	
-	finds(titleFilter:)
-	{ isn
-	  title
-	  summary
-	}
-    }
+
+          {	
+		finds(titleFilter:){ 
+		isn
+	  	title
+	  	summary
+	  	}
+         }
