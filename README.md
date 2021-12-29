@@ -10,7 +10,7 @@ This project is to quickly become familiar with the integration of MVC structure
 - `docker ps` -> if there is any container running[[Docker]]
 	-   `if not`: docker run -itd --name dockername -p 27017:27017 mongo --auth
 -   docker exec -it mongo-docker mongo admin
--  建立一个用户有权限编辑
+-   create a user with authentication
     1. `db.createUser({ user:'admin',pwd:'root',roles:[ { role:'userAdminAnyDatabase', db: 'admin'},"readWriteAnyDatabase"]});`
     2. `db.auth("admin", "root")`
 		
