@@ -34,3 +34,6 @@ in `http://localhost:8091/graphiql`
 	  	summary
 	  	}
          }
+	 
+## About Jenkinsfile
+There are 2 stages for pipeline.
