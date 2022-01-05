@@ -1,5 +1,5 @@
 # graphQL-demo
-This project is to quickly become familiar with the integration of MVC structure and DGS—qraphlQL with MongoDB and related tests.
+This project is to quickly become familiar with the integration of MVC structure and DGS—graphQL with MongoDB and related tests.
 
 
 
